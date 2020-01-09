@@ -8,7 +8,7 @@
             </el-form-item>
 
             <el-form-item prop="password">
-                <el-input placeholder="请输入密码" type="password" v-model="loginForm.password" auto-complete="off"
+                <el-input placeholder="请输入密码" type="password" v-model="loginForm.password" auto-complete="off" @keydown.enter.native="submitForm"
                           show-password></el-input>
             </el-form-item>
 
@@ -48,8 +48,9 @@
                             if(resp){
                                //alert(JSON.stringify(resp));
                                window.sessionStorage.setItem("user",JSON.stringify(resp));
+                               let path = this.$route.query.redirect;
                                //跳转到主页面(replace不能通过后退回到登录界面)
-                                this.$router.replace('/home');
+                                this.$router.replace((path=='/'||path==undefined)?'/home':path);
 
                             }
                         });

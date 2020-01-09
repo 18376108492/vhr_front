@@ -16,22 +16,29 @@
             </el-header>
             <el-container>
                 <el-aside width="200px">
-                    <el-menu router>
-<!-- this.$router.options.routes 获取到index.js中的routes数组-->
-                        <el-submenu index="1" v-for="(item,index) in this.$router.options.routes" v-if="!item.hidden" :key="index">
+                    <el-menu router unique-opened>
+                        <!-- this.$router.options.routes 获取到index.js中的routes数组-->
+                        <el-submenu :index="index+''" v-for="(item,index) in routes" v-if="!item.hidden" :key="index">
                             <template slot="title">
-                                <i class="el-icon-location"></i>
+                                <i style="color: #7893ff; margin-right: 5px " :class="item.iconCls"></i>
                                 <span>{{item.name}}</span>
                             </template>
-                                <el-menu-item :index="child.path" v-for="(child,indexj) in item.children" :key="indexj">
-                                    {{child.name}}
-                                </el-menu-item>
+                            <el-menu-item :index="child.path" v-for="(child,indexj) in item.children" :key="indexj">
+                                {{child.name}}
+                            </el-menu-item>
                         </el-submenu>
                     </el-menu>
 
                 </el-aside>
                 <el-main>
-                    <router-view/>
+                    <el-breadcrumb separator-class="el-icon-arrow-right" v-if="this.$route.path!='/home'">
+                        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+                        <el-breadcrumb-item>{{this.$router.currentRoute.name}}</el-breadcrumb-item>
+                    </el-breadcrumb>
+                    <div class="homeFont" v-else>
+                        欢迎来到人事管理系统！
+                    </div>
+                    <router-view class="homeRouterView"/>
                 </el-main>
             </el-container>
         </el-container>
@@ -40,16 +47,21 @@
 </template>
 
 <script>
+    import router from "../router";
+
     export default {
         name: "Home",
         data() {
             return {
-                // user:JSON.parse(window.sessionStorage.getItem('user'))
-                user: {
-                    name: 'admin'
-                }
+                user: JSON.parse(window.sessionStorage.getItem('user'))
             }
         },
+        computed: {
+            routes() {
+                return this.$store.state.routes;
+            }
+        }
+        ,
         methods: {
             // menuClick:function(index){
             //    //点击标题时，跳转至相应的界面
@@ -69,6 +81,8 @@
                         this.getRequest('/logout');
                         //清空缓存数据
                         window.sessionStorage.removeItem('user');
+                        //清空vuex里面的数据
+                        this.$store.commit('initRoutes', []);
                         //跳转至登入界面
                         this.$router.replace('/');
                     }).catch(() => {
@@ -88,6 +102,17 @@
 </script>
 
 <style>
+    .homeRouterView{
+        margin-top:15px
+    }
+    .homeFont{
+       text-align: center;
+        font-size: 50px;
+        font-family: 方正粗黑宋简体;
+        color: #7893ff;
+        margin-top: 100px;
+    }
+
     .homeHeader {
         background-color: cornflowerblue;
         display: flex;
@@ -109,7 +134,7 @@
         cursor: pointer;
     }
 
-    .el-dropdown-link{
+    .el-dropdown-link {
         display: flex;
         align-items: center;
     }

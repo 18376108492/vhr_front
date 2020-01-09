@@ -1,7 +1,7 @@
 let proxyObj = {};
 proxyObj['/'] = {
     ws: false,
-    target: 'http://localhost:9090',
+    target: 'http://localhost:9091',
     changeOrigin: true,
     pathRewrite: {
         //不修改拦截路径
