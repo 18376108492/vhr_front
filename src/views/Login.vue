@@ -1,6 +1,13 @@
 <template>
     <div>
-        <el-form :rules="login_form"  :model="loginForm" ref="loginForm" class="loginStyle">
+        <el-form :rules="login_form"
+                 :model="loginForm"
+                 ref="loginForm"
+                 v-loading="loading"
+                 element-loading-text="正在登入"
+                 element-loading-spinner="el-icon-loading"
+                 element-loading-background="rgba(0, 0, 0, 0.8)"
+                 class="loginStyle">
             <h3 class="loginTitle">人事管理系统登入</h3>
 
             <el-form-item prop="username">
@@ -31,6 +38,7 @@
                     password: '123'
                 },
                 checked: false,
+                loading: false,
                 login_form: {
                     username: [{required: true, message: "亲输入用户名", trigger: 'blur'}],
                     password: [{required: true, message: "亲输入密码", trigger: 'blur'}]
@@ -42,8 +50,10 @@
                 this.$refs.loginForm.validate((valid) => {
 
                     if (valid) {
+                        this.loading=true;
                        // alert("param"+this.loginForm);
                         this.postKeyValueRequest('/doLogin',this.loginForm).then(resp=>{
+                            this.loading=false;
                            // alert("resp"+resp)
                             if(resp){
                                //alert(JSON.stringify(resp));
