@@ -93,11 +93,14 @@
             },
             //初始化数据
             initDepData(){
-                this.getRequest("/sys/basic/department/").then(resp=>{
-                    if(resp){
-                        this.depData=resp;
-                    }
-                })
+
+                    this.getRequest("/sys/basic/department/").then(resp=>{
+                        if(resp){
+                            this.depData=resp;
+                            window.sessionStorage.setItem("depData",JSON.stringify(resp));
+                        }
+                    })
+
             },
             showAddNode(data){
                 this.pname=data.name;
@@ -120,7 +123,7 @@
                          this.deleteRequest("/sys/basic/department/" + data.id).then(resp => {
                              //刷新表格
                              if (resp) {
-                                 this.removeDep(this.depData,data.id);
+                                 this.removeDep(null,this.depData,data.id);
                              }
                          })
                      }).catch(() => {
@@ -131,14 +134,17 @@
                      });
                  }
             },
-            removeDep(depData,id){
+            removeDep(parent,depData,id){
                 for (let i=0;i<depData.length;i++){
                     let d=depData[i];
                     if(d.id==id){
                        depData.splice(i,1);
-                       return
+                       if(depData.length==0){
+                           parent.parent=false;
+                       }
+                       return;
                     }else {
-                        this.removeDep(d.children,id);
+                        this.removeDep(d,d.children,id);
                     }
                 }
             },
@@ -148,6 +154,7 @@
                      if(d.id==dep.parentId){
                           //说明新增的节点是d节点下的子节点，将其添加到children数组中
                          d.children=d.children.concat(dep);
+                         d.parent=true;
                      }else {
                          //如果不是在遍历其子节点
                          this.addDep2Depdata(d.children,dep);

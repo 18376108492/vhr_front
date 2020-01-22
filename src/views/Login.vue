@@ -56,6 +56,7 @@
                             this.loading=false;
                            // alert("resp"+resp)
                             if(resp){
+                                this.$store.commit('INIT_CURRENTHR',resp.obj);
                                //alert(JSON.stringify(resp));
                                window.sessionStorage.setItem("user",JSON.stringify(resp));
                                let path = this.$route.query.redirect;

@@ -3,16 +3,20 @@
         <el-container>
             <el-header class="homeHeader">
                 <div class="homeHeaderTitle">人事管理系统</div>
-                <el-dropdown class="userInfo" @command="commandHandler">
+
+                <div>
+                    <el-button icon="el-icon-chat-dot-round" type="text" class="el-button"  @click="goChat" title="聊天室"></el-button>
+                    <el-dropdown class="userInfo" @command="commandHandler">
   <span class="el-dropdown-link">
-    {{user.name}}<i><img :src="user.userface" alt=""></i>
+    {{user.username}}<i><img src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" alt=""></i>
   </span>
-                    <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item command="userinfo">个人中心</el-dropdown-item>
-                        <el-dropdown-item command="usersetting">设置</el-dropdown-item>
-                        <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
-                    </el-dropdown-menu>
-                </el-dropdown>
+                       <el-dropdown-menu slot="dropdown">
+                           <el-dropdown-item command="userinfo">个人中心</el-dropdown-item>
+                           <el-dropdown-item command="usersetting">设置</el-dropdown-item>
+                           <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
+                       </el-dropdown-menu>
+                   </el-dropdown>
+               </div>
             </el-header>
             <el-container>
                 <el-aside width="200px">
@@ -74,7 +78,6 @@
                 if (mod == 'logout') {
                     this.$confirm('此操作将退出系统, 是否继续?', '提示', {
                         confirmButtonText: '确定',
-
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
@@ -96,17 +99,21 @@
                 } else if (mod == 'userinfo') {
 
                 }
+            },
+            goChat(){
+                this.$router.push("/chat");
             }
         }
     }
 </script>
 
 <style>
-    .homeRouterView{
-        margin-top:15px
+    .homeRouterView {
+        margin-top: 10px
     }
-    .homeFont{
-       text-align: center;
+
+    .homeFont {
+        text-align: center;
         font-size: 50px;
         font-family: 方正粗黑宋简体;
         color: #7893ff;
@@ -119,7 +126,7 @@
         /*剧中*/
         align-items: center;
         justify-content: space-between;
-        padding: 0px 20px;
+        padding: 0px 15px;
         box-sizing: border-box;
     }
 
@@ -130,7 +137,7 @@
 
     }
 
-    .homeHeader .userInfo {
+   userInfo {
         cursor: pointer;
     }
 
@@ -144,6 +151,15 @@
         width: 48px;
         border-radius: 20px;
         margin-left: 10px;
+    }
+    .el-button{
+        margin-right: 8px;
+
+    }
+
+    .el-button .el-icon-chat-dot-round{
+        font-size: 30px;
+        color: #000000;
     }
 
 </style>

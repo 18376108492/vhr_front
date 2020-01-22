@@ -57,9 +57,9 @@ export const initMenu = (router, store) => {
                         require(['../views/sys/' + component + '.vue'], resolve);
                     }
                 }
-            }
+            };
             fmRouters.push(fmRouter);
-        })
+        });
 
         return fmRouters;
     }
