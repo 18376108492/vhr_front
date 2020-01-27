@@ -300,7 +300,7 @@
                 </el-table-column>
                 <el-table-column
                         fixed="right"
-                        width="200"
+                        width="240"
                         label="操作">
                     <template slot-scope="scope">
                     <el-button class="buttonSize" type="info" size="small" @click="showEditEmp(scope.$index, scope.row)">编辑</el-button>
