@@ -21,3 +21,6 @@
 ### 3. 安装依赖 npm insatll
 ### 4. 启动项目 npm run serve
 ### 5. 访问项目，在浏览器中输入  https://localhost:8080 就可以访问前端项目
+# 参考
+* [vhr](https://github.com/lenve/vhr)
+* [vue-chat](https://github.com/microzz/vue-chat)
